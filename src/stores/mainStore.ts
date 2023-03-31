@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 import type {IMainStoreActions, IMainStoreState, TMainStoreGetters} from "@/types/main-store";
 import {ProductsService} from "@/services/ProductsService";
 
@@ -11,15 +11,29 @@ export const useMainStore = defineStore<
     id: 'products-store',
     state: () => {
         return {
-            products: []
+            products: [],
+            categories: []
         }
     },
     actions: {
         async getProducts() {
-            const data = await ProductsService.getAll()
+            const data = await ProductsService.getAllProducts()
             if (data) {
                 this.products = data
             }
+        },
+        async getProductsByCategory(category: string) {
+            const data = await ProductsService.getProductsByCategory(category)
+            if (data) {
+                this.products = data
+            }
+        },
+        async getCategories() {
+            this.categories = await ProductsService.getCategories()
+        },
+        async init() {
+            await this.getProducts();
+            await this.getCategories();
         }
     }
 })
