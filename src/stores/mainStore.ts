@@ -3,12 +3,12 @@ import type {IMainStoreActions, IMainStoreState, TMainStoreGetters} from "@/type
 import {ProductsService} from "@/services/ProductsService";
 
 export const useMainStore = defineStore<
-    'products-store',
+    'main-store',
     IMainStoreState,
     TMainStoreGetters,
     IMainStoreActions
     >({
-    id: 'products-store',
+    id: 'main-store',
     state: () => {
         return {
             products: [],

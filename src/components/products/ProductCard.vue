@@ -4,18 +4,26 @@
       <img :src="product.image" :alt="product.title"/>
     </div>
     <h2 class="product-card__title">
-      <router-link to="/">{{ product.title }}</router-link>
+      <router-link :to="productLink">{{ product.title }}</router-link>
     </h2>
+    <price :price="product.price" />
     <p class="product-card__description">{{product.description}}</p>
   </div>
 </template>
 <script lang="ts">
 import {Component, Prop, Vue} from "vue-facing-decorator";
 import type {IProduct} from "@/types/product";
+import Price from "@/components/products/Price.vue";
 
-@Component
+@Component({
+  components: { Price }
+})
 export default class ProductCard extends Vue {
   @Prop({ required: true }) readonly product!: IProduct;
+
+  get productLink() {
+    return `/products/${this.product.id}`
+  }
 }
 </script>
 <style lang="scss" scoped>

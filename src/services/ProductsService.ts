@@ -12,6 +12,16 @@ export class ProductsService {
         }
     }
 
+    static async getOneProduct(id: string):Promise<IProduct | null> {
+        try {
+            const response = await axios.get<IProduct>(`https://fakestoreapi.com/products/${id}`)
+            return response.data
+        } catch (e) {
+            console.error(e)
+            return null
+        }
+    }
+
     static async getProductsByCategory(category: string): Promise<IProduct[]> {
         try {
             const response = await axios.get<IProduct[]>(`https://fakestoreapi.com/products/category/${category}`)
