@@ -11,7 +11,8 @@
       <div>
         <h2 class="product__title">{{ product.title }}</h2>
         <price :price="product.price" />
-        <p>{{product.description}}</p>
+        <p class="mb-20">{{product.description}}</p>
+        <button class="btn" @click="addToCart">Add to Cart</button>
       </div>
     </div>
   </div>
@@ -20,11 +21,13 @@
 import {Component, Vue} from "vue-facing-decorator";
 import {useProductStore} from "@/stores/singleProductStore";
 import Price from "@/components/products/Price.vue";
+import {useCartStore} from "@/stores/cartStore";
 @Component({
   components: {Price}
 })
 export default class ProductPage extends Vue {
   private store = useProductStore()
+  private cartStore = useCartStore()
 
   private async mounted() {
     const id = this.$route.params.id as string
@@ -37,6 +40,13 @@ export default class ProductPage extends Vue {
 
   private get product() {
     return this.store.product
+  }
+
+  private addToCart() {
+    if (!this.product) {
+      return;
+    }
+    this.cartStore.addProduct(this.product)
   }
 }
 </script>
